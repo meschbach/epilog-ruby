@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'epilog-ruby/version'
+require 'epilog/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "epilog-ruby"
-  gem.version       = Epilog::Ruby::VERSION
+  gem.name          = "epilog"
+  gem.version       = Epilog::VERSION
   gem.authors       = ["Mark Eschbach"]
   gem.email         = ["meschbach@gmail.com"]
   gem.description   = %q{TODO: Write a gem description}
