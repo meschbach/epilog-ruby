@@ -2,21 +2,21 @@ require "epilog/version"
 
 module Epilog
 	class UnificationGoal
-		def initialize( leftSide, rightSide )
-			@leftSide = leftSide
-			@rightSide = rightSide
+		def initialize( left_side, right_side )
+			@left_side = left_side
+			@right_side = right_side
 		end
 
 		def solve
-			if @leftSide.ground?
-				if @rightSide.ground?
-					@leftSide.value == @rightSide.value
+			if @left_side.ground?
+				if @right_side.ground?
+					@left_side.value == @right_side.value
 				else
-					@rightSide.materialize( @leftSide.value )
+					@right_side.materialize( @left_side.value )
 					true
 				end
 			else
-				@leftSide.materialize( @rightSide.value )
+				@left_side.materialize( @right_side.value )
 				true
 			end
 		end
