@@ -9,7 +9,12 @@ module Epilog
 
 		def solve
 			if @leftSide.ground?
-				@leftSide.value == @rightSide.value
+				if @rightSide.ground?
+					@leftSide.value == @rightSide.value
+				else
+					@rightSide.materialize( @leftSide.value )
+					true
+				end
 			else
 				@leftSide.materialize( @rightSide.value )
 				true

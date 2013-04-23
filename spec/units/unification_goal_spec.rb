@@ -1,11 +1,12 @@
 require 'epilog'
 
 describe Epilog::UnificationGoal do
+	let( :bound_value ){ "bound" }
+	let( :bound_variable ){ Epilog::Variable.new( bound_value ) }
+	let( :variable ){ Epilog::Variable.new }
+
 	context "with left input unbound and right input is ground" do
-		let( :left ){ Epilog::Variable.new }
-		let( :right_value ){ "bound" }
-		let( :right ){ Epilog::Variable.new( right_value ) }
-		let( :goal ){ Epilog::UnificationGoal.new( left, right ) }
+		let( :goal ){ Epilog::UnificationGoal.new( variable, bound_variable ) }
 
 		it "is proven" do
 			goal.solve.should be_true
@@ -15,20 +16,39 @@ describe Epilog::UnificationGoal do
 			before { goal.solve }
 
 			it "is ground" do
-				left.should be_ground
+				variable.should be_ground
 			end
 			it "materialized as the right value" do
-				left.value.should == right_value
+				variable.value.should == bound_value
 			end
 		end
 		it "grounds the left variable" do
 			goal.solve
-			left.should be_ground
+			variable.should be_ground
 		end
 
 		it "grounds the left variable to the value" do
 			goal.solve
-			left.should be_ground
+			variable.should be_ground
+		end
+	end
+
+	context "with the left value bound and right is free" do
+		let( :goal ){ Epilog::UnificationGoal.new( bound_variable, variable ) }
+
+		it "is proven true" do
+			goal.solve.should be_true
+		end
+
+		context "for the right variable" do
+			before { goal.solve }
+			it "is bound" do
+				variable.should be_ground
+			end
+
+			it "materialized to the left value" do
+				variable.value.should == bound_value
+			end
 		end
 	end
 
