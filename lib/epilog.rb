@@ -1,4 +1,5 @@
 require "epilog/version"
+require "epilog/variable"
 
 module Epilog
 	class UnificationGoal
@@ -12,31 +13,29 @@ module Epilog
 				if @right_side.ground?
 					@left_side.value == @right_side.value
 				else
-					@right_side.materialize( @left_side.value )
+					@right_side.associate( @left_side )
 					true
 				end
 			else
-				@left_side.materialize( @right_side.value )
+				@left_side.associate( @right_side )
 				true
 			end
 		end
 	end
 
-	class Variable
-		def initialize( value = nil )
-			@value = value
+	class Statement
+		def initialize( )
+			@goals = []
 		end
 
-		def ground?
-			!@value.nil?
+		def add_goal( a_goal )
+			@goals << a_goal
 		end
 
-		def materialize( value )
-			@value = value
-		end
-
-		def value
-			@value
+		def solve
+			@goals.map do |goal|
+				goal.solve
+			end
 		end
 	end
 end

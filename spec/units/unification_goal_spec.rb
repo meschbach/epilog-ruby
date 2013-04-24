@@ -46,8 +46,8 @@ describe Epilog::UnificationGoal do
 				variable.should be_ground
 			end
 
-			it "materialized to the left value" do
-				variable.value.should == bound_value
+			it "comoses the two variables from the same matter" do
+				variable.matter.should == bound_variable.matter 
 			end
 		end
 	end
@@ -69,6 +69,16 @@ describe Epilog::UnificationGoal do
 		it "is false when the left and right avlues are not equal" do
 			goal = Epilog::UnificationGoal.new( Epilog::Variable.new( "left" ), Epilog::Variable.new( "right" ) )
 			goal.solve.should be_false
+		end
+	end
+
+	context "with both inputs unbound" do
+		let( :other_variable ){ Epilog::Variable.new }
+		let( :goal ){ Epilog::UnificationGoal.new( variable, other_variable ) }
+
+		it "associates the variables" do
+			goal.solve
+			other_variable.matter.should == variable.matter
 		end
 	end
 end
